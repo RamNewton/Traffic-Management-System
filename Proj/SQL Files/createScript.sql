@@ -1,6 +1,6 @@
-create database TrafficMgmt;
+create database traffic_monitoring_system;
 
-use TrafficMgmt;
+use traffic_monitoring_system;
 drop Table Person;
 create Table Person(aadhar numeric(12), firstName varchar(30), lastName varchar(30), dob date, PINcode numeric(6), mobNumber numeric(10), email varchar(30), licenseID varchar(15), primary key(aadhar));
 
