@@ -16,10 +16,10 @@ body {
 
 
 .upperdivViolation {
-  background-color: #f7be16;
+  background-color: #64b2cd;
   color : white;
   padding: 50px;
-  width: 60%;
+  width: 80%;
   height: 150px;
   -webkit-transition: width 2s;
   transition: width 2s;
@@ -74,8 +74,10 @@ body {
 
 .formdiv {
   margin : 30px;
+  padding-left: 30%;
+  padding-right: 30%;
   background-color: #f8f8f8;
-  margin-left: 35%;
+  /* margin-left: 35%; */
 }
 
 h1 {
@@ -181,4 +183,8 @@ a:hover {
 .btn:active {
 	position:relative;
 	top:1px;
+}
+
+.dropdownmenu{
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #5cbf2a), color-stop(1, #44c767));
 }

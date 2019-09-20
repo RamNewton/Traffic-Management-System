@@ -1,8 +1,13 @@
+    //jshint esversion:6
+//jshint esversion:8
+//jshint esversion:9
 import React, {useState} from 'react';
 import axios from 'axios';
-import './index.css'
-import logo from './trafficlight.png'
+import './index.css';
+import logo from './trafficlight.png';
 import { Redirect } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { ButtonToolbar } from 'react-bootstrap';
 
 export default function AddUser(props)
 {
@@ -16,12 +21,12 @@ export default function AddUser(props)
         var value = event.target.value;
         // console.log(event);
         // console.log(value);
-        setUser({...user, [field]: value})
+        setUser({...user, [field]: value});
     }
 
     function sendToServer()
     {
-        console.log(user)
+        console.log(user);
         axios.post("http://localhost:8081/Login",user,{
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
@@ -36,15 +41,15 @@ export default function AddUser(props)
             }
             else
             {
-                alert("Login Faliure")
+                alert("Login Faliure");
                 setUser({...user, password: ""});
                 return false;
             }
         }).catch(error =>{
             console.log(error.response);
             alert("Check Credentials");
-        })
-        
+        });
+
     }
 
     function addUser(event)
@@ -71,7 +76,8 @@ export default function AddUser(props)
                     <br/>
                     <br/>
                     <input class = "inputstyle" type = "password" name = "password" placeholder = "Password" value = {user.password} onChange = {handleChange}/><br/><br/>
-                    <input class = "btn" type = "submit" value = "Login"/>
+                    <input class = "btn first" type = "submit" value = "Login"/>
+
                 </form>
             </div>
         </div>

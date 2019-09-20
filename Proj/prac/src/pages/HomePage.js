@@ -1,3 +1,5 @@
+//jshint esversion:6
+//jshint esversion:8
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
@@ -15,8 +17,8 @@ export default function HomePage(props)
             console.log("invoke max");
             setUser(response.data);
         }).catch(error => {
-            console.log(error)
-        })
+            console.log(error);
+        });
     }
 
     return(

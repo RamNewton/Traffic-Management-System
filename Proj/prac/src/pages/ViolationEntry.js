@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import logo from './trafficlight.png'
 import './index.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button'
 class ViolationForm extends React.Component
@@ -115,16 +116,18 @@ class ViolationForm extends React.Component
              Type
              <br/>
              <br/>
-               <select name="type" value = {this.state.Type}
+               <select class="dropdownmenu" name="type" value = {this.state.Type}
                 onChange = {this.handleChange}>
                 <option value="Speeding">Speeding</option>
                 <option value="Driving Under Influence">Driving Under Influence</option>
                 <option value="Driving Without Licence">Driving Without Licence</option>
                 <option value="Driving Without Insurance">Driving Without Insurance</option>
-                
+
               </select>
              <br/>
              <br/>
+
+
              {/* Action Taken
              <br/>
              <br/>
@@ -180,7 +183,7 @@ class ViolationForm extends React.Component
               onChange={this.handleChange}
               /><br/><br/><br/> */}
 
-              <input class = "btn" type="submit" value="Record"/>
+              <input class = "btn btn-primary" type="submit" value="Record"/>
              </form>
 
 
