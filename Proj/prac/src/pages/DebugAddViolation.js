@@ -7,14 +7,16 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-class DebugAddLicence extends React.Component
+class DebugAddViolation extends React.Component
 {
     constructor(props)
     {
       super(props);
         this.state = {
-       LicenceID:'',
-
+          billId:'',
+          type:'',
+          officerInChargeID:'',
+          violatorAadhar:'',
         };
         this.handleSubmit=this.handleSubmit.bind(this);
         this.handleChange=this.handleChange.bind(this);
@@ -27,7 +29,7 @@ class DebugAddLicence extends React.Component
         event.preventDefault();
         // if (this.state.Type === '' || this.state.ActionTaken === ''|| this.state.FineCharged === ''||
         //     this.state.LicenseNum === ''|| this.state.AadharNum === '')
-        if(this.state.lid == '' && this.state.idate == ''&&this.state.edate == ''&&this.state.aadhar == '')
+        if(this.state.AadharNum == '' && 'y'=='z')
         {
           alert('Please fill all mandatory fields.');
           return;
@@ -43,7 +45,7 @@ class DebugAddLicence extends React.Component
         // }
         else
         {
-          axios.post("http://localhost:8081/DebugAddLicene",this.state,{
+          axios.post("http://localhost:8081/DebugAddViolation",this.state,{
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
                 "Access-Control-Allow-Origin": "*",
@@ -54,6 +56,12 @@ class DebugAddLicence extends React.Component
             {
                 alert("Entry Successful");
                 return true;
+            }
+            else if (response.data === "DNE")
+            {
+                alert("Aadhar Does Not Exist");
+                // setUser({...user, password: ""});
+                return false;
             }
             else
             {
@@ -72,8 +80,8 @@ class DebugAddLicence extends React.Component
     }
 
     handleChange(event) {
-        if (event.target.name === "lid") {
-            this.setState({ lid: event.target.value });
+        if (event.target.name === "billId") {
+            this.setState({ billId: event.target.value });
         }
         // else if (event.target.name === "action") {
         //     this.setState({ ActionTaken: event.target.value });
@@ -96,79 +104,84 @@ class DebugAddLicence extends React.Component
         // else if (event.target.name === "desc") {
         //     this.setState({ Description: event.target.value });
         // }
-        else if (event.target.name === "idate") {
-            this.setState({ idate: event.target.value });
+        else if (event.target.name === "type") {
+            this.setState({ type: event.target.value });
         }
-        else if(event.target.name === "edate")
+        else if(event.target.name === "  officerInChargeID")
         {
-          this.setState({ edate: event.target.value });
+          this.setState({officerInChargeID: event.target.value });
         }
-        else if(event.target.name === "aadhar")
+        else if(event.target.name === "violatorAadhar")
         {
-          this.setState({ aadhar: event.target.value });
+          this.setState({ violatorAadhar: event.target.value });
         }
+    
     }
 
     render() {
         return(
           <div>
           <div class = "upperdivViolation upperdiv">
-          <h1>Add Licence into Database</h1>
+          <h1>Add violation into Database</h1>
           </div>
           <div class = "signal">
             <img src={logo} class = "signalpic" />
           </div>
           <div class = "formdiv">
-          <form onSubmit= {this.handleSubmit} name='DebugAddLicence'>
-           Licene ID
+          <form onSubmit= {this.handleSubmit} name='DebugAddViolation'>
+           BillID
            <br/>
            <br/>
            <input
             class = "inputstyle"
             type='number'
-            value={this.state.lid}
-            name='lid'
-            placeholder = "Enter LicenceID"
+            value={this.state.billId}
+            name='billId'
+            placeholder = "Enter billId"
             onChange={this.handleChange}
             />
             <br/><br/>
-            Licence Issuedate
+            type
             <br/>
             <br/>
             <input
              class = "inputstyle"
-             type='date'
-             value={this.state.idate}
-             name='idate'
-             placeholder = "Enter issuedate"
+             type='text'
+             value={this.state.type}
+             name='type'
+             placeholder = "Enter type of offence"
              onChange={this.handleChange}
              />
              <br/><br/>
-          License Expirydate
+           officerInChargeID
            <br/>
            <br/>
            <input
-           class = "inputstyle"
-           type='date'
-           value={this.state.edate}
-           name='edate'
-           placeholder = "Enter Expiry date"
-           onChange={this.handleChange}/> <br/><br/>
-           <br/><br/>
-           Aadhar number
-            <br/>
-            <br/>
-            <input
             class = "inputstyle"
             type='number'
-            value={this.state.aadhar}
-            name='aadhar'
-            placeholder = "Enter aadhar number"
-            onChange={this.handleChange}/> <br/><br/>
+            value={this.state.officerInChargeID}
+            name='officerInChargeID'
+            placeholder = "Enter officerInChargeID"
+            onChange={this.handleChange}
+            />
+            <br/><br/>
+            violatorAadhar
+            <br/>
+           <br/>
+           <input
+            class = "inputstyle"
+            type='number'
+            value={this.state.violatorAadhar}
+            name='violatorAadhar'
+            placeholder = "Enter violatorAadhar"
+            onChange={this.handleChange}
+            />
+            <br></br>
+            <br></br>
 
 
 
-            <input class = "btn btn-primary" type="submit" value="Add License "/>
+            <input class = "btn btn-primary" type="submit" value="Add Violation "/>
 </ form>
             </div>
 
@@ -176,4 +189,4 @@ class DebugAddLicence extends React.Component
         )
     }
 }
-export default DebugAddLicence;
+export default DebugAddViolation;
