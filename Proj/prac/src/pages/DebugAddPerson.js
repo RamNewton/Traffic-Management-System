@@ -58,7 +58,7 @@ class DebugAddPersonForm extends React.Component
         else
         {
           console.log(this.state.Type);
-          axios.post("http://localhost:8081/ViolationEntry",this.state,{
+          axios.post("http://localhost:8081/DebugAddPerson",this.state,{
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
                 "Access-Control-Allow-Origin": "*",

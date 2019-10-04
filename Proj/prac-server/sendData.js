@@ -13,40 +13,40 @@ var md5 = require('md5');
 
 //Establishing Connection
 var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '1234',
-    database : 'traffic_monitoring_system'
-    
+    host: 'localhost',
+    user: 'root',
+    password: '1234',
+    database: 'traffic_monitoring_system'
+
 });
 
 
 //BoilerPlate Stuff
 connection.connect();
 app.use(cors());
-app.use(express.urlencoded({extended : true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
 //Checking if server is running 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
     console.log("Server Is Working!");
-    data = {uname : "server", password : "why"};
+    data = { uname: "server", password: "why" };
     res.json(data);
 });
 
 //Basic Query to Generate Accident Report
-app.get('/GenerateAccidentReport', function (req, res) {
+app.get('/GenerateAccidentReport', function(req, res) {
     console.log("Invoked Query");
-    connection.query('SELECT * from person', function (error, results, fields) {
+    connection.query('SELECT * from person', function(error, results, fields) {
         if (error) throw error;
         console.log('The solution is: ', results[0].solution);
         res.json(results);
     });
-    
+
 });
 
-app.post('/GenerateAccidentReport', function (req, res) {
+app.post('/GenerateAccidentReport', function(req, res) {
     // connection.query("Select aadhar from Person", (err, result) => {
 
     //     if (err)
@@ -59,26 +59,23 @@ app.post('/GenerateAccidentReport', function (req, res) {
 });
 
 //Adding Violation to the Database
-app.post('/AddViolationEntry', function(req, res){
+app.post('/AddViolationEntry', function(req, res) {
     data = req.body;
     var aadhar = data.AadharNum;
     var officerID = data.officerID;
-    var type=data.type;
+    var type = data.type;
 
 
-    connection.query("Select aadhar from Person where aadhar = ?", [aadhar], (err, result) =>{
-        if(err)
+    connection.query("Select aadhar from Person where aadhar = ?", [aadhar], (err, result) => {
+        if (err)
             console.log("Error");
 
         // console.log(result);
-        if(result.length == 0)
-        {
+        if (result.length == 0) {
             res.send("DNE");
             console.log("gone");
             return "gone";
-        }
-        else
-        {
+        } else {
             console.log("Adhar okay");
         }
     });
@@ -87,18 +84,14 @@ app.post('/AddViolationEntry', function(req, res){
         type, officerID, aadhar
     ];
 
-    connection.query("Insert into Violation (type, officerInChargeID, violatorAadhar) Values (?)", [colList], (err, result) =>{
-        if(err)
+    connection.query("Insert into Violation (type, officerInChargeID, violatorAadhar) Values (?)", [colList], (err, result) => {
+        if (err)
             console.log(err);
-        else
-        {
-            if(err)
-            {
+        else {
+            if (err) {
                 res.send("fail");
                 throw err;
-            }
-            else
-            {
+            } else {
                 res.send("success");
             }
         }
@@ -112,15 +105,15 @@ app.post('/AddViolationEntry', function(req, res){
 // });
 
 //Adding Accident to the Database
-app.post('/AccidentEntry', function (req, res) {
+app.post('/AccidentEntry', function(req, res) {
     data = req.body;
-    var accidentID=data.accidentID;
-    var casualties= data.casualties;
+    var accidentID = data.accidentID;
+    var casualties = data.casualties;
     var timeOfAccident = data.timeOfAccident;
     var location = data.location;
     var cause = data.cause;
     var officerInChargeID = data.officerInChargeID;
-    var lpn=data.lpn;
+    var lpn = data.lpn;
 
 
     //TODO: Check if the lpn is valid code to be added here.
@@ -134,7 +127,7 @@ app.post('/AccidentEntry', function (req, res) {
         timeOfAccident
     ];
 
-    var colList2=[
+    var colList2 = [
         accidentID,
         lpn
     ];
@@ -146,8 +139,7 @@ app.post('/AccidentEntry', function (req, res) {
             if (err) {
                 res.send("fail");
                 throw err;
-            }
-            else {
+            } else {
                 res.send("success");
             }
         }
@@ -160,8 +152,7 @@ app.post('/AccidentEntry', function (req, res) {
             if (err) {
                 res.send("fail");
                 throw err;
-            }
-            else {
+            } else {
                 res.send("success");
             }
         }
@@ -171,7 +162,7 @@ app.post('/AccidentEntry', function (req, res) {
 
 
 //Adding Licence to the database
-app.post('/DebugAddLicence', function (req, res) {
+app.post('/DebugAddLicence', function(req, res) {
     data = req.body;
     var licenceid = data.licenceid;
     var licenceIssueDate = data.licenceIssueDate;
@@ -179,7 +170,7 @@ app.post('/DebugAddLicence', function (req, res) {
     var AadharNum = data.AadharNum;
 
     var colList = [
-        licenseID,licenseIssueDate,licenseExpiryDate,aadhar
+        licenseID, licenseIssueDate, licenseExpiryDate, aadhar
     ];
 
 
@@ -190,8 +181,7 @@ app.post('/DebugAddLicence', function (req, res) {
             if (err) {
                 res.send("fail");
                 throw err;
-            }
-            else {
+            } else {
                 res.send("success");
             }
         }
@@ -200,20 +190,20 @@ app.post('/DebugAddLicence', function (req, res) {
 
 
 //Adding Vehicle to the database
-app.post('/DebugAddVehicle', function (req, res) {
+app.post('/DebugAddVehicle', function(req, res) {
     data = req.body;
     var lpn = data.lpn;
     var model = data.model;
-    var insuranceCheck =data.insuranceCheck;
-    var pollutionCheck= data.pollutionCheck;    
-    var AadharNum=data.AadharNum;
+    var insuranceCheck = data.insuranceCheck;
+    var pollutionCheck = data.pollutionCheck;
+    var AadharNum = data.AadharNum;
 
     var colList = [
-        lpn,model,insuranceCheck,pollutionCheck
+        lpn, model, insuranceCheck, pollutionCheck
     ];
 
-    var colList2=[
-        lpn,AadharNum
+    var colList2 = [
+        lpn, AadharNum
     ];
 
     connection.query("Insert into vehicle (lpn,model,insuranceCheck,pollutionCheck) Values (?)", [colList], (err, result) => {
@@ -223,8 +213,7 @@ app.post('/DebugAddVehicle', function (req, res) {
             if (err) {
                 res.send("fail");
                 throw err;
-            }
-            else {
+            } else {
                 res.send("success");
             }
         }
@@ -236,8 +225,7 @@ app.post('/DebugAddVehicle', function (req, res) {
             if (err) {
                 res.send("fail");
                 throw err;
-            }
-            else {
+            } else {
                 res.send("success");
             }
         }
@@ -248,13 +236,13 @@ app.post('/DebugAddVehicle', function (req, res) {
 
 
 //Adding Vehicle Model to the database
-app.post('/DebugAddModel', function (req, res) {
+app.post('/DebugAddModel', function(req, res) {
     data = req.body;
     var model = data.model;
     var manufacturer = data.manufacturer;
 
     var colList = [
-        model,manufacturer
+        model, manufacturer
     ];
 
     connection.query("Insert into model_manufacturer (model,manufacturer) Values (?)", [colList], (err, result) => {
@@ -264,8 +252,7 @@ app.post('/DebugAddModel', function (req, res) {
             if (err) {
                 res.send("fail");
                 throw err;
-            }
-            else {
+            } else {
                 res.send("success");
             }
         }
@@ -280,33 +267,30 @@ app.post('/DebugAddModel', function (req, res) {
 // });
 
 //Adding Person to the database
-app.post('/DebugAddPerson', function(req, res){
+app.post('/DebugAddPerson', function(req, res) {
     data = req.body;
-    var aadhar = data.AadharNum, type = data.Type;
-    var firstname=data.FirstName;
-    var lastname=data.LastName;
-    var pincode=data.pincode;
-    var mobileno=data.MobileNo;
-    var dob=data.dob;
-    var licenceid=data.LicenceID;
-    var email=data.Email;
+    var aadhar = data.AadharNum,
+        type = data.Type;
+    var firstname = data.FirstName;
+    var lastname = data.LastName;
+    var pincode = data.pincode;
+    var mobileno = data.MobileNo;
+    var dob = data.dob;
+    var licenceid = data.LicenceID;
+    var email = data.Email;
 
     var colList = [
-        aadhar,firstname,lastname,dob,pincode,mobileno,email,licenceid
+        aadhar, firstname, lastname, dob, pincode, mobileno, email, licenceid
     ];
 
-    connection.query("Insert into Person (aadhar,firstname,lastname,dob,pincode,mobNumber,email,licenseId) Values (?)", [colList], (err, result) =>{
-        if(err)
+    connection.query("Insert into Person (aadhar,firstname,lastname,dob,pincode,mobNumber,email,licenseId) Values (?)", [colList], (err, result) => {
+        if (err)
             console.log(err);
-        else
-        {
-            if(err)
-            {
+        else {
+            if (err) {
                 res.send("fail");
                 throw err;
-            }
-            else
-            {
+            } else {
                 res.send("success");
             }
         }
@@ -315,10 +299,11 @@ app.post('/DebugAddPerson', function(req, res){
 
 
 //OfficerLogin
-app.post('/Login', function (req, res) {
+app.post('/Login', function(req, res) {
     console.log("addUser was invoked");
     data = req.body;
-    var user = data.uname, pass = data.password;
+    var user = data.uname,
+        pass = data.password;
     var values = [
         [user, pass]
     ];
@@ -342,7 +327,6 @@ app.post('/Login', function (req, res) {
 
 
 //Starting Server
-app.listen(8081);
-{
+app.listen(8081); {
     console.log("Listening to 8081");
 }

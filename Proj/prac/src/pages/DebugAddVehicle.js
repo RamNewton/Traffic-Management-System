@@ -7,33 +7,31 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-class DebugAddVehicleForm extends React.Component
-{
-    constructor(props)
-    {
-      super(props);
+class DebugAddVehicleForm extends React.Component {
+    constructor(props) {
+        super(props);
         this.state = {
-          VehicleModel:'',
-          LicencePlateNo:'',
-          Insured :'',
-          PollCheck:'',
-          formvalid : false
+            VehicleModel: '',
+            LicencePlateNo: '',
+            Insured: '',
+            PollCheck: '',
+            AadharNum: '',
+            VehicleManufacturer: '',
+            formvalid: false
         };
-        this.handleSubmit=this.handleSubmit.bind(this);
-        this.handleChange=this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 
     }
 
-    handleSubmit(event)
-    {
+    handleSubmit(event) {
 
         event.preventDefault();
         // if (this.state.Type === '' || this.state.ActionTaken === ''|| this.state.FineCharged === ''||
         //     this.state.LicenseNum === ''|| this.state.AadharNum === '')
-        if(this.state.AadharNum == '' && 'y'=='z')
-        {
-          alert('Please fill all mandatory fields.');
-          return;
+        if (this.state.AadharNum == '' && 'y' == 'z') {
+            alert('Please fill all mandatory fields.');
+            return;
         }
         // if(isNaN(parseInt(this.state.FineCharged)))
         // {
@@ -44,35 +42,29 @@ class DebugAddVehicleForm extends React.Component
         //   alert("Aadhar ID invalid.");
         //   return;
         // }
-        else
-        {
-          axios.post("http://localhost:8081/DebugAddVehicle",this.state,{
-            headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
-                "Access-Control-Allow-Origin": "*",
-            }
-          }).then((response) =>{
-            console.log(response.data);
-            if(response.data === "success")
-            {
-                alert("Entry Successful");
-                return true;
-            }
-            else if (response.data === "DNE")
-            {
-                alert("Aadhar Does Not Exist");
-                // setUser({...user, password: ""});
-                return false;
-            }
-            else
-            {
-                alert("Entry Unsuccessful");
-                return false;
-            }
-        }).catch(error =>{
-            console.log(error.response);
-            alert("Entry Unsuccessful. Contact Admin");
-        });
+        else {
+            axios.post("http://localhost:8081/DebugAddVehicle", this.state, {
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    "Access-Control-Allow-Origin": "*",
+                }
+            }).then((response) => {
+                console.log(response.data);
+                if (response.data === "success") {
+                    alert("Entry Successful");
+                    return true;
+                } else if (response.data === "DNE") {
+                    alert("Aadhar Does Not Exist");
+                    // setUser({...user, password: ""});
+                    return false;
+                } else {
+                    alert("Entry Unsuccessful");
+                    return false;
+                }
+            }).catch(error => {
+                console.log(error.response);
+                alert("Entry Unsuccessful. Contact Admin");
+            });
         }
         // if(isNaN(parseInt(this.state.LicenseNum)))
         // {
@@ -107,87 +99,61 @@ class DebugAddVehicleForm extends React.Component
         // }
         else if (event.target.name === "lpn") {
             this.setState({ LicencePlateNo: event.target.value });
-        }
-        else if(event.target.name === "model")
-        {
-          this.setState({ VehicleModel: event.target.value });
-        }
-        else if(event.target.name === "insured")
-        {
-          this.setState({ Insured: 'Y' });
-        }
-        else if(event.target.name === "pollcheck")
-        {
-          this.setState({ PollCheck: event.target.value });
+        } else if (event.target.name === "model") {
+            this.setState({ VehicleModel: event.target.value });
+        } else if (event.target.name === "insured") {
+            this.setState({ Insured: 'Y' });
+        } else if (event.target.name === "pollcheck") {
+            this.setState({ PollCheck: event.target.value });
         }
     }
 
     render() {
-        return(
-          <div>
-          <div class = "upperdivViolation upperdiv">
-          <h1>Add Vehicle into Database</h1>
-          </div>
-          <div class = "signal">
-            <img src={logo} class = "signalpic" />
-          </div>
-          <div class = "formdiv">
-          <form onSubmit= {this.handleSubmit} name='DebugAddVehicle'>
-           Licence Plate No
-           <br/>
-           <br/>
-           <input
-            class = "inputstyle"
-            type='number'
-            value={this.state.LicencePlateNo}
-            name='lpn'
-            placeholder = "Enter LicencePlateNo"
-            onChange={this.handleChange}
-            />
-            <br/><br/>
-            Vehicle Model
+        return (
+<div>
+    <div class="upperdivViolation upperdiv">
+        <h1> Add Vehicle into Database </h1> </div>
+    <div class="signal">
+        <img src={ logo } class="signalpic" />
+    </div>
+    <div class="formdiv">
+        <form onSubmit={ this.handleSubmit } name='DebugAddVehicle'>
+            Licence Plate No
             <br/>
             <br/>
-            <input
-             class = "inputstyle"
-             type='text'
-             value={this.state.VehicleModel}
-             name='model'
-             placeholder = "Enter Model of Vehicle"
-             onChange={this.handleChange}
-             />
-             <br/><br/>
-           Insurance and Pollution Check
-           <br/>
-           <br/>
+            < input class="inputstyle" type='number' value={ this.state.LicencePlateNo } name='lpn' placeholder="Enter LicencePlateNo" onChange={ this.handleChange } />
+            <br/>
+            <br/> Vehicle Model
+            < br />
+            <br/>
+            < input class="inputstyle" type='text' value={ this.state.VehicleModel } name='model' placeholder="Enter Model of Vehicle" onChange={ this.handleChange } />
+            <br/>
+            <br/> Insurance and Pollution Check
+            <br/>
+            <br/>
+            < input class="inputstyle" type='checkbox' value={ this.state.Insured } name='insured' /> Select if Insured
+            <br/>
+            <br/>
+            < input class="inputstyle" type='checkbox' value={ this.state.PollCheck } name='pollcheck' /> Select if Pollution Check is Done
+            <br/>
+            <br/>
+             Aadhar
+            <br/>
+            <br/>
+            < input class="inputstyle" type='text' value={ this.state.AadharNum } name='model' placeholder="Enter Model of Vehicle" onChange={ this.handleChange } /> 
+                        <br />
+                        <br />
+            Vehicle Manufacturer
+            <br/>
+            <br/>
+            < input class="inputstyle" type='text' value={ this.state.VehicleManufacturer } name='model' placeholder="Enter Model of Vehicle" onChange={ this.handleChange } />
+                        <br />
+                        <br />
+                        < input class="btn btn-primary" type="submit" value="Add Person " />
+        </form>
+    </div>
 
-           <input
-            class = "inputstyle"
-            type='checkbox'
-            value={this.state.Insured}
-            name='insured'
-            // onChange={this.handleChange}
-            />  Select if Insured
-
-            <br/><br/>
-
-            <input
-             class = "inputstyle"
-             type='checkbox'
-             value={this.state.PollCheck}
-             name='pollcheck'
-             // onChange={this.handleChange}
-             />  Select if Pollution Check is Done
-
-             <br/><br/>
-
-
-
-            <input class = "btn btn-primary" type="submit" value="Add Person "/>
-</ form>
-            </div>
-
-            </div>
+</div>
         )
     }
 }
