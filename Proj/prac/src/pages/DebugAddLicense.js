@@ -7,7 +7,7 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-class DebugAddVehicleForm extends React.Component
+class DebugAddLicence extends React.Component
 {
     constructor(props)
     {

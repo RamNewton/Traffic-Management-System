@@ -40,9 +40,17 @@ app.get('/GenerateAccidentReport', function(req, res) {
     console.log("Invoked Query");
     connection.query('SELECT * from person', function(error, results, fields) {
         if (error) throw error;
-        console.log('The solution is: ', results[0].solution);
-        res.json(results);
+        
+        // console.log(table);
+        // res.json(results);
+        // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        // res.send(table);
+        res.send(results);
+        // res.send(table)
+
     });
+
+    
 
 });
 
