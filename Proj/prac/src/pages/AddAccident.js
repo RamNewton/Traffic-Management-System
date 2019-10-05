@@ -1,95 +1,149 @@
 //jshint esversion:6
 //jshint esversion:8
-//jshint esversion:9
-import React, { useState } from 'react';
-import axios from 'axios';
-import './index.css';
+import React from 'react';
+
 import logo from './trafficlight.png';
-import { Redirect } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import { ButtonToolbar } from 'react-bootstrap';
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+class AddAccident extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            accid: '',
+            cas: '',
+            time: '',
+            location: '',
+            cause:'',
+            uname:'',
+            lpn:''
 
-export default function AddAccident(props) {
-    const Initialstate = { accid: "", cas: "", time: "", location: "", cause: "", officerid: "" };
-
-    const [user, setUser] = useState(Initialstate);
-
-    function handleChange(event) {
-        var field = event.target.name;
-        var value = event.target.value;
-        // console.log(event);
-        // console.log(value);
-        setUser({ ...user, [field]: value });
-    }
-
-    function sendToServer() {
-        console.log(user);
-        axios.post("http://localhost:8081/AccidentEntry", user, {
-            headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
-                "Access-Control-Allow-Origin": "*",
-            }
-        }).then((response) => {
-            console.log(response.data);
-            if (response.data === "success") {
-                alert("Accident recorded Successfully");
-                return true;
-            }
-            else {
-                alert("Failed.Try again");
-                setUser({ ...user, password: "" });
-                return false;
-            }
-        }).catch(error => {
-            console.log(error.response);
-            alert("Contact Administrator");
-        });
+        };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 
     }
 
-    function addAccident(event) {
+    handleSubmit(event) {
+
         event.preventDefault();
-        sendToServer();
+        // if (this.state.Type === '' || this.state.ActionTaken === ''|| this.state.FineCharged === ''||
+        //     this.state.LicenseNum === ''|| this.state.AadharNum === '')
+        if (this.state.AadharNum == '' && 'y' == 'z') {
+            alert('Please fill all mandatory fields.');
+            return;
+        }
+        // if(isNaN(parseInt(this.state.FineCharged)))
+        // {
+        //   alert("Fine charged must be a number.");
+        // }
+        // else if(isNaN(parseInt(this.state.AadharNum)) || (this.state.AadharNum).length != 12)
+        // {
+        //   alert("Aadhar ID invalid.");
+        //   return;
+        // }
+        else {
+            axios.post("http://localhost:8081/AccidentEntry", this.state, {
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    "Access-Control-Allow-Origin": "*",
+                }
+            }).then((response) => {
+                console.log(response.data);
+                if (response.data === "success") {
+                    alert("Entry Successful");
+                    return true;
+                }
+                else if (response.data === "DNE") {
+                    alert("Aadhar Does Not Exist");
+                    // setUser({...user, password: ""});
+                    return false;
+                }
+                else {
+                    alert("Entry Unsuccessful");
+                    return false;
+                }
+            }).catch(error => {
+                console.log(error.response);
+                alert("Entry Unsuccessful. Contact Admin");
+            });
+        }
+        // if(isNaN(parseInt(this.state.LicenseNum)))
+        // {
+        //   alert("License ID must be a number.");
+        // }
     }
 
-    return (
-        <div>
-            <div class="upperdivViolation upperdiv">
-                <h1>Officer Login</h1>
-            </div>
-            <div class="signal">
-                <img src={logo} className="signalpic" />
-            </div>
-            <div class="formdiv">
-                <form onSubmit={addAccident} name="add-accident">
-                    <label>AccidentID</label>
-                    <br />
-                    <br />
-                    <input class="inputstyle" type="text" name="id" placeholder="Enter AccidentID" value={user.accid} onChange={handleChange} /><br /><br />
-                    <label>number of Casualities</label>
-                    <br />
-                    <br />
-                    <input class="inputstyle" type="number" name="cas" placeholder="no. of casualities" value={user.cas} onChange={handleChange} /><br /><br />
+    handleChange(event) {
+        if (event.target.name === "accid") {
+            this.setState({ accid: event.target.value });
+        }
+        else if (event.target.name === "cas") {
+            this.setState({ cas: event.target.value });
+        }
+        else if (event.target.name === "time") {
+            this.setState({ time: event.target.value });
+        }
+        else if (event.target.name === "location") {
+            this.setState({ location: event.target.value });
+        }
+        else if (event.target.name === "cause") {
+            this.setState({ cause: event.target.value });
+        }
+        else if (event.target.name === "officer") {
+            this.setState({ uname: event.target.value });
+        }
+        else if (event.target.name === "lpn") {
+            this.setState({ lpn: event.target.value });
+        }
 
-                    <label>time of casuality</label>
-                    <br />
-                    <br />
-                    <input class="inputstyle" type="time" name="time" placeholder="time" value={user.time} onChange={handleChange} /><br /><br />
-                    <label>location</label>
-                    <br />
-                    <br />
-                    <input class="inputstyle" type="text" name="location" placeholder="Enter location" value={user.location} onChange={handleChange} /><br /><br />
-                    <label>Cause</label>
-                    <br />
-                    <br />
-                    <input class="inputstyle" type="text" name="cause" placeholder="Cause " value={user.cause} onChange={handleChange} /><br /><br />
-                    <label>Officer ID</label>
-                    <br />
-                    <br />
-                    <input class="inputstyle" type="text" name="officer" placeholder="Enter OfficerID" value={user.uname} onChange={handleChange} /><br /><br />
-                    <input class="btn first" type="submit" value="Enter" />
-                </form>
+    }
+
+    render() {
+        return (
+            <div>
+                <div class="upperdivViolation upperdiv">
+                    <h1>Officer Login</h1>
+                </div>
+                <div class="signal">
+                    <img src={logo} className="signalpic" />
+                </div>
+                <div class="formdiv">
+                    <form onSubmit={this.handleSubmit} name="AddAccident">
+                        <label>AccidentID</label>
+                        <br />
+                        <br />
+                        <input class="inputstyle" type="number" name="accid" placeholder="Enter AccidentID" value={this.state.accid} onChange={this.handleChange} /><br /><br />
+                        <label>number of Casualities</label>
+                        <br />
+                        <br />
+                        <input class="inputstyle" type="number" name="cas" placeholder="no. of casualities" value={this.state.cas} onChange={this.handleChange} /><br /><br />
+
+                        <label>time of casuality</label>
+                        <br />
+                        <br />
+                        <input class="inputstyle" type="date" name="time" placeholder="time" value={this.state.time} onChange={this.handleChange} /><br /><br />
+                        <label>location</label>
+                        <br />
+                        <br />
+                        <input class="inputstyle" type="text" name="location" placeholder="Enter location" value={this.state.location} onChange={this.handleChange} /><br /><br />
+                        <label>Cause</label>
+                        <br />
+                        <br />
+                        <input class="inputstyle" type="text" name="cause" placeholder="Cause " value={this.state.cause} onChange={this.handleChange} /><br /><br />
+                        <label>Officer ID</label>
+                        <br />
+                        <br />
+                        <input class="inputstyle" type="text" name="officer" placeholder="Enter OfficerID" value={this.state.uname} onChange={this.handleChange} /><br /><br />
+                        <label>Licence Plate No</label>
+                        <br />
+                        <br />
+                        <input class="inputstyle" type="text" name="lpn" placeholder="Enter Licence Plate No" value={this.state.lpn} onChange={this.handleChange} /><br /><br />
+                        <input class="btn first" type="submit" value="Enter" />
+                    </form>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
+export default AddAccident;

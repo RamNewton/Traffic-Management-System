@@ -31,16 +31,38 @@ app.use(express.json());
 //Checking if server is running 
 app.get('/', function(req, res) {
     console.log("Server Is Working!");
-    data = { uname: "server", password: "why" };
+    data = { uname: "Coimbatore Traffic Department", password: "Password" };
     res.json(data);
 });
 
 //Basic Query to Generate Accident Report
 app.get('/GenerateAccidentReport', function(req, res) {
-    console.log("Invoked Query");
-    connection.query('SELECT * from person', function(error, results, fields) {
+    startDate='1999-10-10';
+    endDate='2019-10-11';
+    console.log(startDate + " " + endDate)
+    connection.query('SELECT * from accidents where timeOfAccident between ? and ?', [startDate, endDate], function (error, results, fields) {
         if (error) throw error;
-        
+        else
+        // console.log(table);
+        // res.json(results);
+        // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        // res.send(table);
+        res.json(results);
+        // res.send(table)
+
+    });
+    
+
+});
+
+app.post('/GenerateAccidentReport', function(req, res) {
+    
+    startDate=req.body.startDate;
+    endDate=req.body.endDate;
+    console.log(startDate+" "+endDate)
+    connection.query('SELECT * from accidents where timeOfAccident between ? and ?',[startDate,endDate], function (error, results, fields) {
+        if (error) throw error;
+
         // console.log(table);
         // res.json(results);
         // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -50,11 +72,30 @@ app.get('/GenerateAccidentReport', function(req, res) {
 
     });
 
-    
+});
+
+
+
+//Basic Query to Fetch Accident Prone Zones
+app.get('/AccidentProneAreas', function (req, res) {
+
+    connection.query('select location,count(accidentID) as countAccident from accidents group by location;', function (error, results, fields) {
+        if (error) throw error;
+
+        // console.log(table);
+        // res.json(results);
+        // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        // res.send(table);
+
+        res.json(results);
+        // res.send(table)
+
+    });
+
 
 });
 
-app.post('/GenerateAccidentReport', function(req, res) {
+app.post('/AccidentProneAreas', function (req, res) {
     // connection.query("Select aadhar from Person", (err, result) => {
 
     //     if (err)
@@ -63,17 +104,116 @@ app.post('/GenerateAccidentReport', function(req, res) {
     //     console.log(result);
     //     }
     // });
+    connection.query('select location,count(accidentID) as countAccident from accidents group by location;', function (error, results, fields) {
+        if (error) throw error;
+
+        // console.log(table);
+        // res.json(results);
+        // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        // res.send(table);
+
+        res.send(results);
+        // res.send(table)
+
+        // res.send(table)
+
+    });
 
 });
+//Basic Query to Fetch Accident Prone Zones
+app.get('/ViolationReport', function (req, res) {
+
+    connection.query('select * from violation;', function (error, results, fields) {
+        if (error) throw error;
+
+        // console.log(table);
+        // res.json(results);
+        // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        // res.send(table);
+        res.json(results);
+        // res.send(table)
+
+    });
+
+
+});
+
+app.post('/ViolationReport', function (req, res) {
+    // connection.query("Select aadhar from Person", (err, result) => {
+
+    //     if (err)
+    //         console.log("Error");
+    //     else{
+    //     console.log(result);
+    //     }
+    // });
+    connection.query('select * from violation;', function (error, results, fields) {
+        if (error) throw error;
+
+        // console.log(table);
+        // res.json(results);
+        // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        // res.send(table);
+        res.send(results);
+        // res.send(table)
+
+    });
+
+});
+
+
+//Basic Query to Fetch Accident Prone Zones
+app.get('/MostWanted', function (req, res) {
+
+    connection.query('select person.firstname,person.lastname,person.mobNumber,T2.c from person,(select violatorAadhar as VA,count(Billid) as c from violation group by violatorAadhar) as T2 where person.aadhar=T2.VA order by T2.c desc;', function (error, results, fields) {
+        if (error) throw error;
+
+        // console.log(table);
+        // res.json(results);
+        // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        // res.send(table);
+        res.json(results);
+        // res.send(table)
+
+    });
+
+
+});
+
+app.post('/MostWanted', function (req, res) {
+    // connection.query("Select aadhar from Person", (err, result) => {
+
+    //     if (err)
+    //         console.log("Error");
+    //     else{
+    //     console.log(result);
+    //     }
+    // });
+    connection.query('select person.firstname,person.lastname,person.mobNumber,T2.c from person,(select violatorAadhar as VA,count(Billid) as c from violation group by violatorAadhar) as T2 where person.aadhar=T2.VA order by T2.c desc;', function (error, results, fields) {
+        if (error) throw error;
+
+        // console.log(table);
+        // res.json(results);
+        // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        // res.send(table);
+        res.send(results);
+        // res.send(table)
+
+    });
+
+});
+
+
+
 
 //Adding Violation to the Database
 app.post('/AddViolationEntry', function(req, res) {
     data = req.body;
-    var aadhar = data.AadharNum;
-    var officerID = data.officerID;
+    var aadhar = data.violatorAadhar;
+    var officerID = data.officerInChargeID;
     var type = data.type;
 
-
+    var count=0;
     connection.query("Select aadhar from Person where aadhar = ?", [aadhar], (err, result) => {
         if (err)
             console.log("Error");
@@ -82,8 +222,8 @@ app.post('/AddViolationEntry', function(req, res) {
         if (result.length == 0) {
             res.send("DNE");
             console.log("gone");
-            return "gone";
         } else {
+            count=count+1;
             console.log("Adhar okay");
         }
     });
@@ -100,6 +240,8 @@ app.post('/AddViolationEntry', function(req, res) {
                 res.send("fail");
                 throw err;
             } else {
+                count = count + 1;
+                if(count==2)
                 res.send("success");
             }
         }
@@ -115,12 +257,12 @@ app.post('/AddViolationEntry', function(req, res) {
 //Adding Accident to the Database
 app.post('/AccidentEntry', function(req, res) {
     data = req.body;
-    var accidentID = data.accidentID;
-    var casualties = data.casualties;
-    var timeOfAccident = data.timeOfAccident;
+    var accidentID = data.accid;
+    var casualties = data.cas;
+    var timeOfAccident = data.time;
     var location = data.location;
     var cause = data.cause;
-    var officerInChargeID = data.officerInChargeID;
+    var officerInChargeID = data.uname;
     var lpn = data.lpn;
 
 
@@ -213,7 +355,7 @@ app.post('/DebugAddVehicle', function(req, res) {
     var colList2 = [
         lpn, AadharNum
     ];
-
+    var count=0;
     connection.query("Insert into vehicle (lpn,model,insuranceCheck,pollutionCheck) Values (?)", [colList], (err, result) => {
         if (err)
             console.log(err);
@@ -222,11 +364,11 @@ app.post('/DebugAddVehicle', function(req, res) {
                 res.send("fail");
                 throw err;
             } else {
-                res.send("success");
+                count=count+1;
             }
         }
     });
-    connection.query("Insert into vehicle_owner (lpn,AadharNum) Values (?)", [colList2], (err, result) => {
+    connection.query("Insert into vehicle_owner (lpn,ownerAadhar) Values (?)", [colList2], (err, result) => {
         if (err)
             console.log(err);
         else {
@@ -234,10 +376,14 @@ app.post('/DebugAddVehicle', function(req, res) {
                 res.send("fail");
                 throw err;
             } else {
-                res.send("success");
+                count=count+1;
+                if (count == 2)
+                    res.send("success");
             }
         }
     });
+
+    
 });
 
 

@@ -1,0 +1,10 @@
+insert into accidents values('10001',1,'2019-04-10','RS Puram','Driving Without Licence',100001);
+insert into accidents values('10002',0,'2019-04-10','Gandhipuram','No Seat Belt',100001);
+insert into accidents values('10003',0,'2019-03-19','Anna Nagar','Overspeeding',100001);
+insert into accidents values('10004',2,'2019-10-09','Thudiyalur','No Seat Belt',100002);
+insert into accidents values('10005',1,'2019-09-09','Market Road','Driving Without Licence',100003);
+insert into accidents values('10006',2,'2019-08-10','Vadavalli','Driving Without Licence',100001);
+insert into accidents values('10007',3,'2019-08-11','K.K Nagar','Driving Without Licence',100001);
+insert into accidents values('10008',1,'2019-07-10','Nehru Street','Overspeeding',100005);
+insert into accidents values('10009',0,'2019-08-21','RS Puram','Overspeeding',100005);
+insert into accidents values('10010',1,'2019-07-20','Ring Road','No Seat Belt',100007);

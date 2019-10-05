@@ -11,12 +11,11 @@ class DebugAddVehicleForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            VehicleModel: '',
-            LicencePlateNo: '',
-            Insured: '',
-            PollCheck: '',
+            model: '',
+            lpn: '',
+            insuranceCheck: 0,
+            pollutionCheck: 0,
             AadharNum: '',
-            VehicleManufacturer: '',
             formvalid: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,10 +28,10 @@ class DebugAddVehicleForm extends React.Component {
         event.preventDefault();
         // if (this.state.Type === '' || this.state.ActionTaken === ''|| this.state.FineCharged === ''||
         //     this.state.LicenseNum === ''|| this.state.AadharNum === '')
-        if (this.state.AadharNum == '' && 'y' == 'z') {
-            alert('Please fill all mandatory fields.');
-            return;
-        }
+        // if (this.state.AadharNum == '' && 'y' == 'z') {
+        //     alert('Please fill all mandatory fields.');
+        //     return;
+        // }
         // if(isNaN(parseInt(this.state.FineCharged)))
         // {
         //   alert("Fine charged must be a number.");
@@ -42,7 +41,7 @@ class DebugAddVehicleForm extends React.Component {
         //   alert("Aadhar ID invalid.");
         //   return;
         // }
-        else {
+        // else {
             axios.post("http://localhost:8081/DebugAddVehicle", this.state, {
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8',
@@ -65,7 +64,7 @@ class DebugAddVehicleForm extends React.Component {
                 console.log(error.response);
                 alert("Entry Unsuccessful. Contact Admin");
             });
-        }
+        // }
         // if(isNaN(parseInt(this.state.LicenseNum)))
         // {
         //   alert("License ID must be a number.");
@@ -73,38 +72,17 @@ class DebugAddVehicleForm extends React.Component {
     }
 
     handleChange(event) {
-        if (event.target.name === "type") {
-            this.setState({ Type: event.target.value });
+        if (event.target.name === "AadharNum") {
+            this.setState({ AadharNum: event.target.value });
         }
-        // else if (event.target.name === "action") {
-        //     this.setState({ ActionTaken: event.target.value });
-        // }
-        // else if (event.target.name === "fine") {
-        //     this.setState({ FineCharged: event.target.value });
-        // }
-        // else if (event.target.name === "licence") {
-        //     this.setState({ LicenseNum: event.target.value });
-        // }
-        // else if (event.target.name === "aadhar") {
-        //     this.setState({ AadharNum: event.target.value });
-        // }
-        // else if (event.target.name==="insured") {
-        //     console.log("insured");
-        // }
-        // else if (event.target.name==="pollcheck") {
-        //     console.log("pollutionchecked");
-        // }
-        // else if (event.target.name === "desc") {
-        //     this.setState({ Description: event.target.value });
-        // }
         else if (event.target.name === "lpn") {
-            this.setState({ LicencePlateNo: event.target.value });
+            this.setState({ lpn: event.target.value });
         } else if (event.target.name === "model") {
-            this.setState({ VehicleModel: event.target.value });
+            this.setState({ model: event.target.value });
         } else if (event.target.name === "insured") {
-            this.setState({ Insured: 'Y' });
+            this.setState({ insuranceCheck: 1 });
         } else if (event.target.name === "pollcheck") {
-            this.setState({ PollCheck: event.target.value });
+            this.setState({ PollCheck: 1 });
         }
     }
 
@@ -121,35 +99,30 @@ class DebugAddVehicleForm extends React.Component {
             Licence Plate No
             <br/>
             <br/>
-            < input class="inputstyle" type='number' value={ this.state.LicencePlateNo } name='lpn' placeholder="Enter LicencePlateNo" onChange={ this.handleChange } />
+            < input class="inputstyle" type='text' value={ this.state.lpn } name='lpn' placeholder="Enter LicencePlateNo" onChange={ this.handleChange } />
             <br/>
             <br/> Vehicle Model
             < br />
             <br/>
-            < input class="inputstyle" type='text' value={ this.state.VehicleModel } name='model' placeholder="Enter Model of Vehicle" onChange={ this.handleChange } />
+            < input class="inputstyle" type='text' value={ this.state.model } name='model' placeholder="Enter Model of Vehicle" onChange={ this.handleChange } />
             <br/>
             <br/> Insurance and Pollution Check
             <br/>
             <br/>
-            < input class="inputstyle" type='checkbox' value={ this.state.Insured } name='insured' /> Select if Insured
+            < input class="inputstyle" type='checkbox' onChange={ this.handleChange } name='insured' /> Select if Insured
             <br/>
             <br/>
-            < input class="inputstyle" type='checkbox' value={ this.state.PollCheck } name='pollcheck' /> Select if Pollution Check is Done
+            < input class="inputstyle" type='checkbox' onChange={ this.handleChange } name='pollcheck' /> Select if Pollution Check is Done
             <br/>
             <br/>
              Aadhar
             <br/>
             <br/>
-            < input class="inputstyle" type='text' value={ this.state.AadharNum } name='model' placeholder="Enter Model of Vehicle" onChange={ this.handleChange } /> 
+            < input class="inputstyle" type='text' value={ this.state.AadharNum } name='AadharNum' placeholder="Enter Model of Vehicle" onChange={ this.handleChange } /> 
                         <br />
                         <br />
-            Vehicle Manufacturer
-            <br/>
-            <br/>
-            < input class="inputstyle" type='text' value={ this.state.VehicleManufacturer } name='model' placeholder="Enter Model of Vehicle" onChange={ this.handleChange } />
-                        <br />
-                        <br />
-                        < input class="btn btn-primary" type="submit" value="Add Person " />
+            
+                        < input class="btn btn-primary" type="submit" value="Add Vehicle " />
         </form>
     </div>
 
