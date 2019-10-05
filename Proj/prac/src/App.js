@@ -10,8 +10,12 @@ import AddAccident from './pages/AddAccident'
 import DebugAddofficer from './pages/DebugAddofficer'
 import DebugAddViolation from './pages/DebugAddViolation'
 import AccidentReport from './pages/AccidentReport'
+import RedirectEverywhere from './pages/RedirectEverywhere'
 import './App.css';
 import DebugAddLicence from './pages/DebugAddLicense';
+import ViolationReport from './pages/ViolationReport';
+import ProneZone from './pages/ProneZone';
+import MostWanted from './pages/MostWanted';
 
 export default function App()
 {
@@ -28,6 +32,11 @@ export default function App()
       <Route path="/DebugAddofficer" component={DebugAddofficer} />
       <Route path="/DebugAddViolation" component={DebugAddViolation} />
       <Route path="/AccidentReport" component={AccidentReport} />
+      <Route path="/RedirectEverywhere" component={RedirectEverywhere} />
+      <Route path="/ProneZone" component={ProneZone} />
+      <Route path="/ViolationReport" component={ViolationReport} />
+      <Route path="/MostWanted" component={MostWanted}/>
+
     </Switch>
   )
 }

@@ -1,12 +1,11 @@
 //jshint esversion:6
 //jshint esversion:8
 import React from 'react';
-import ReactDom from 'react-dom';
+
 import logo from './trafficlight.png';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
 class DebugAddViolation extends React.Component
 {
     constructor(props)
@@ -45,7 +44,7 @@ class DebugAddViolation extends React.Component
         // }
         else
         {
-          axios.post("http://localhost:8081/DebugAddViolation",this.state,{
+          axios.post("http://localhost:8081/AddViolationEntry",this.state,{
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
                 "Access-Control-Allow-Origin": "*",
@@ -111,8 +110,11 @@ class DebugAddViolation extends React.Component
         {
           this.setState({officerInChargeID: event.target.value });
         }
-        else if(event.target.name === "violatorAadhar")
+        else if (event.target.name === "officerInChargeID")
         {
+          this.setState({ officerInChargeID: event.target.value });
+        }
+        else if (event.target.name === "violatorAadhar") {
           this.setState({ violatorAadhar: event.target.value });
         }
     
@@ -129,19 +131,8 @@ class DebugAddViolation extends React.Component
           </div>
           <div class = "formdiv">
           <form onSubmit= {this.handleSubmit} name='DebugAddViolation'>
-           BillID
-           <br/>
-           <br/>
-           <input
-            class = "inputstyle"
-            type='number'
-            value={this.state.billId}
-            name='billId'
-            placeholder = "Enter billId"
-            onChange={this.handleChange}
-            />
-            <br/><br/>
-            type
+           
+            Type of Violation
             <br/>
             <br/>
             <input

@@ -1,0 +1,11 @@
+accidentID,casualties,timeOfAccident,location,cause,officerInChargeID
+10001,1,2019-04-10,RS Puram,Driving Under Influence,4031114944
+10002,0,2019-04-10,Gandhipuram,Reckless driving,17222899717
+10003,0,2019-03-19,Anna Nagar,Overspeeding,49838098673
+10004,2,2019-10-09,Thudiyalur,Driving Under Influence,100010001000
+10005,1,2019-09-09,Market Road,Overspeeding,101010101011
+10006,2,2019-08-10,Vadavalli,Faulty Brakes,106747929389
+10007,3,2019-08-11,K.K Nagar,Driving Under Influence,29264584437
+10008,1,2019-07-10,Nehru Street,Overspeeding,18310973862
+10009,0,2019-08-21,RS Puram,Overspeeding,52976334781
+10010,1,2019-07-20,Ring Road,Driving Under Influence,17222899717

@@ -37,7 +37,7 @@ export default function AddUser(props)
             if(response.data === "success")
             {
                 alert("Login Successful");
-                return true;
+                return <Redirect to='/DebugAddViolation'/>
             }
             else
             {

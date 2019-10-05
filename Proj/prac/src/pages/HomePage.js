@@ -6,7 +6,7 @@ import axios from 'axios';
 export default function HomePage(props)
 {
 
-    const initialState = {uname : "ram", password : "what"};
+    const initialState = {uname : "Coimbatore Traffic Department", password : "what"};
 
     const [user, setUser] = useState(initialState);
 
@@ -21,10 +21,11 @@ export default function HomePage(props)
         });
     }
 
+    
     return(
         <div>
             <h1> {user.uname} </h1>
-            <button onClick = {getData}>Click Here</button>
+            <button onClick = {getData}>Open Traffic Management System</button>
         </div>
     )
 }
